@@ -1,0 +1,1 @@
+/Users/song/Code/learnRust/10_traits/media_aggregator/target/debug/media_aggregator: /Users/song/Code/learnRust/10_traits/aggregator/src/lib.rs /Users/song/Code/learnRust/10_traits/media_aggregator/src/main.rs

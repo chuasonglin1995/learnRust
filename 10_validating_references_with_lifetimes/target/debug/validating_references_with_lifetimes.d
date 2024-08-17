@@ -1,0 +1,1 @@
+/Users/song/Code/learnRust/10_validating_references_with_lifetimes/target/debug/validating_references_with_lifetimes: /Users/song/Code/learnRust/10_validating_references_with_lifetimes/src/main.rs
