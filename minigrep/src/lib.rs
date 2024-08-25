@@ -26,14 +26,22 @@ pub struct Config {
 }
 
 impl Config {
-	pub fn build(args: &[String]) -> Result<Config, &'static str> { // error is a string with static lifetime
-		if args.len() < 3 {
-			return Err("not enough arguments");
-		}
+	pub fn build(
+		mut args: impl Iterator<Item = String>
+	) -> Result<Config, &'static str> { // error is a string with static lifetime
+		args.next(); // skip the first argument, which is the program name
 
-		let query = args[1].clone(); // create a copy, giving up little performance for simplicity
-		let file_path = args[2].clone();
-		//let ignore_case = args[3].parse::<bool>().unwrap_or(false);
+		let query = match args.next() {
+			Some(arg) => arg,
+			None => return Err("Didnt get a query string"),
+		};
+
+		let file_path = match args.next() {
+			Some(arg) => arg,
+			None => return Err("Didnt get a file path"),
+		};
+
+		// let ignore_case = args[3].parse::<bool>().unwrap_or(false);
 		let ignore_case = env::var("IGNORE_CASE").is_ok(); // if not set, return false
 
 		Ok(Config { query, file_path, ignore_case })
@@ -43,6 +51,7 @@ impl Config {
 pub fn search_case_sensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 	let mut results = Vec::new();
 
+	// improved version below in `search_case_insensitive`
 	for line in contents.lines() {
 		if line.contains(query) {
 			results.push(line);

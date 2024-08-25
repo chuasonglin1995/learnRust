@@ -12,7 +12,8 @@ fn main() {
     dbg!(&args);
 
     // simiar: let config = Config::build(&args).unwrap_or_else(|err| {
-    let config = match Config::build(&args) {
+    // passing ownership of args to Config::build
+    let config = match Config::build(env::args()) {
         Ok(config) => config,
         Err(e) => {
             eprintln!("Problem parsing arguments: {e}"); // eprintln! prints to standard error system
