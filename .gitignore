@@ -1,9 +1,7 @@
 # Ignore Rust build artifacts
-target/
+**/target/
 **/*.rs.bk
 
-# Ignore Rust compiler metadata
-.rustc_info.json
 
 # Ignore IDE/editor specific files
 .idea/
