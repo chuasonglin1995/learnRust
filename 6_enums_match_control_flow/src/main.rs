@@ -52,6 +52,7 @@ fn main() {
         _ => reroll(),
         // other => move_player(other), if you want to use the variable passed in
         // _ => (), so that nothing happens
+    }
 }
 
 
