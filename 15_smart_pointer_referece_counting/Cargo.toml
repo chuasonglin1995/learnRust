@@ -1,0 +1,6 @@
+[package]
+name = "smart_pointer_referece_counted"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
