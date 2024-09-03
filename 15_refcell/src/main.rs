@@ -20,6 +20,13 @@ impl List {
 }
 
 
+// ======== Having Multiple Owners of Mutable Data by Combining Rc<T> and RefCell<T> ========
+#[derive(Debug)]
+enum ListMultiOwner {
+    Cons(Rc<RefCell<i32>>, Rc<ListMultiOwner>),
+    Nil,
+}
+
 use crate::List::{Cons, Nil};
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -59,4 +66,23 @@ fn main() {
     // Uncomment the next line to see that we have a cycle;
     // it will overflow the stack
     // println!("a next item = {:?}", a.tail());
+
+
+    // ======== Having Multiple Owners of Mutable Data by Combining Rc<T> and RefCell<T> ========
+
+    let value = Rc::new(RefCell::new(5));
+
+    let d = Rc::new(ListMultiOwner::Cons(Rc::clone(&value), Rc::new(ListMultiOwner::Nil)));
+
+    let e = Rc::new(ListMultiOwner::Cons(Rc::new(RefCell::new(3)), Rc::clone(&d)));
+    let f = Rc::new(ListMultiOwner::Cons(Rc::new(RefCell::new(4)), Rc::clone(&d)));
+
+    *value.borrow_mut() += 10;
+
+    // shows that all have the modifed value of 15
+    println!("d after = {d:?}");
+    println!("e after = {e:?}");
+    println!("f after = {f:?}");
+    // this technique is useful so that we have an outwardly immutable List value
+    // but we can use the methods on RefCell<T> that provide interior mutability to modify the value as we need
 }

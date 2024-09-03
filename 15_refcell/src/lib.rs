@@ -69,7 +69,6 @@ mod tests {
 
     impl Messenger for MockMessenger {
         fn send(&self, message: &str) {
-            // we call borrow_mut() to get a mutable reference to the value inside the RefCell<Vec<String>>
             self.sent_messages.borrow_mut().push(String::from(message));
         }
     }
@@ -81,6 +80,7 @@ mod tests {
 
         limit_tracker.set_value(80);
 
+        println!("{:?}", mock_messenger.sent_messages.borrow());
         assert_eq!(mock_messenger.sent_messages.borrow().len(), 1);
     }
 }
