@@ -191,7 +191,25 @@
         Some((a, b)) => println!("Matched, a = {a}, b = {b}"), // `a` and `b` are bound to the values inside the tuple for any other values
         None => println!("No value"),
     }
-}
+
+    let order = Order {
+        id: 123,
+        status: OrderStatus::Shipped,
+    };
+
+    match order {
+        // You can match directly on the enum variants without using @ bindings if you don't need to capture the value for additional conditions or destructuring.
+        // if its part of the pattern matching, then you cannot access the value in the exeuction arm!
+        Order { id, status: s @ OrderStatus::Pending } => {
+            println!("Order {id} is pending. Status: {:?}", s);
+        }
+        Order { id, status: s @ OrderStatus::Shipped } => {
+            println!("Order {id} has been shipped. Status: {:?}", s);
+        }
+        Order { id, status: s @ OrderStatus::Delivered } => {
+            println!("Order {id} has been delivered. Status: {:?}", s);
+        }
+    }
 
   */
 
